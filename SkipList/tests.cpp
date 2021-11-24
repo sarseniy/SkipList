@@ -1,6 +1,6 @@
 #pragma once
-#include "SkipList.cpp"
-#include "multiSkipList.cpp"
+#include "SkipList.h"
+#include "multiSkipList.h"
 
 class Error {
 public:

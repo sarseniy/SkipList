@@ -15,20 +15,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SkipList.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="multiSkipList.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="Node.h">
+      <Filter>Файлы заголовков</Filter>
     </ClCompile>
     <ClCompile Include="tests.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="multiSkipList.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClCompile>
+    <ClCompile Include="SkipList.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
