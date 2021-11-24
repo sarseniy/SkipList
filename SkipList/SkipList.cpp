@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿#pragma once
+
+#include <iostream>
 #include <vector>
 #include <random>
 #include <vector>
@@ -14,7 +16,7 @@ public:
         typedef Node<ValueType, KeyType>* pointer;
         typedef Node<ValueType, KeyType> reference;
     public:
-        iterator(Node<ValueType, KeyType>& d) : data(d)
+        iterator(Node<ValueType, KeyType> d) : data(d)
         {}
         iterator(iterator const& rha) : data(rha.data)
         {}
@@ -22,9 +24,10 @@ public:
         {
             if (&lha == this)
             {
-                return;
+                return *this;
             }
             data = lha.data;
+            return *this;
         }
 
         bool operator==(iterator const& lha) {
@@ -251,10 +254,12 @@ public:
 
     iterator lower_bound(KeyType k) {
         for (auto it = begin(); it != end(); ++it) if (it->key >= k) return it;
+        return end();
     }
 
     iterator upper_bound(KeyType k) { 
         for (auto it = begin(); it != end(); ++it) if (it->key > k) return it;
+        return end();
     }
 
     void clear() {

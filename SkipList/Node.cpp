@@ -1,5 +1,6 @@
-#include <vector>
 #pragma once
+#include <vector>
+
 
 template <typename ValueType, typename KeyType = unsigned long int>
 struct Node

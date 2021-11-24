@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <random>
@@ -248,10 +250,13 @@ public:
 
     iterator lower_bound(KeyType k) {
         for (auto it = begin(); it != end(); ++it) if (it->key >= k) return it;
+        return end();
     }
 
     iterator upper_bound(KeyType k) {
         for (auto it = begin(); it != end(); ++it) if (it->key > k) return it;
+        return end();
+
     }
 
     void clear() {
@@ -271,6 +276,10 @@ public:
 
     size_t size() {
         return length;
+    }
+
+    std::pair<iterator, iterator> equal_range(KeyType k) {
+        return std::make_pair(lower_bound(k), upper_bound(k));
     }
 
     ~multiSkipList() {
