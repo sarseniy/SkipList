@@ -6,10 +6,10 @@
 template <typename ValueType, typename KeyType = unsigned long int>
 struct Node
 {
-    Node() : Node(0x7fffffff, NULL, 0)
+    Node() : Node(0x7fffffff, nullptr, 0)
     {}
 
-    Node(size_t level) : Node(0x7fffffff, NULL, level)
+    Node(size_t level) : Node(0x7fffffff, nullptr, level)
     {}
 
     Node(KeyType key, ValueType value) : Node(key, value, 0)

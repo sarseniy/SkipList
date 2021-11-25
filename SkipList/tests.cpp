@@ -1,5 +1,3 @@
-#pragma once
-
 #include "SkipList.h"
 #include "multiSkipList.h"
 
@@ -411,51 +409,7 @@ void TEST() {
         EraseTest();
         multiSkipListTest();
     }
-    catch (ConstructorAndInsertError err)
-    {
-        err.perr();
-    }
-    catch (IterConstructorError err)
-    {
-        err.perr();
-    }
-    catch (CopyError err)
-    {
-        err.perr();
-    }
-    catch (EmptyError err)
-    {
-        err.perr();
-    }
-    catch (SizeError err)
-    {
-        err.perr();
-    }
-    catch (IterInsertError err)
-    {
-        err.perr();
-    }
-    catch (IterError err)
-    {
-        err.perr();
-    }
-    catch (FindError err)
-    {
-        err.perr();
-    }
-    catch (CountError err)
-    {
-        err.perr();
-    }
-    catch (LowerUpperBoundError err)
-    {
-        err.perr();
-    }
-    catch (EraseError err)
-    {
-        err.perr();
-    }
-    catch (multiSkipListError err)
+    catch (Error& err)
     {
         err.perr();
     }

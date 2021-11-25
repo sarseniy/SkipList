@@ -72,7 +72,7 @@ public:
     }
 
     SkipList(size_t max_level=10) : max_level(max_level), level(0), gen(seed), length(0) {
-        head = new Node<ValueType>(0, NULL, max_level);
+        head = new Node<ValueType>(0, ValueType{}, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
             head->forward[i] = nullptr;
@@ -81,7 +81,7 @@ public:
 
     template <typename T>
     SkipList(T st, T en, size_t max_level = 10) : max_level(max_level), level(0), gen(seed), length(0) {
-        head = new Node<ValueType>(0, NULL, max_level);
+        head = new Node<ValueType>(0, ValueType{}, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
             head->forward[i] = nullptr;
@@ -94,7 +94,7 @@ public:
 
     SkipList(SkipList<ValueType, KeyType>& rha) : gen(seed), level(0), length(0),
         max_level(rha.max_level) {
-        head = new Node<ValueType>(0, NULL, max_level);
+        head = new Node<ValueType>(0, ValueType{}, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
             head->forward[i] = nullptr;
@@ -119,7 +119,7 @@ public:
         length = 0;
         max_level = rha.max_level;
 
-        head = new Node<ValueType>(0, NULL, max_level);
+        head = new Node<ValueType>(0, ValueType{}, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
             head->forward[i] = nullptr;
@@ -137,7 +137,7 @@ public:
         head = rha.head;
         rha.gen.seed(seed);
 
-        rha.head = new Node<ValueType>(0, NULL, rha.max_level);
+        rha.head = new Node<ValueType>(0, ValueType{}, rha.max_level);
         for (size_t i = 0; i < rha.max_level; i++)
         {
             rha.head->forward[i] = nullptr;
@@ -149,7 +149,7 @@ public:
     SkipList<ValueType, KeyType>& operator=(SkipList<ValueType, KeyType>&& rha) {
         if (&rha == this)
         {
-            return;
+            return *this;
         }
 
         clear();
@@ -163,7 +163,7 @@ public:
         head = rha.head;
         std::swap(gen, rha.gen);
 
-        rha.head = new Node<ValueType>(0, NULL, rha.max_level);
+        rha.head = new Node<ValueType>(0, ValueType{}, rha.max_level);
         for (size_t i = 0; i < rha.max_level; i++)
         {
             rha.head->forward[i] = nullptr;
