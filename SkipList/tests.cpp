@@ -1,4 +1,5 @@
 #pragma once
+
 #include "SkipList.h"
 #include "multiSkipList.h"
 
@@ -101,7 +102,7 @@ public:
     }
 };
 
-inline void ConstructorAndInsertTest() {
+void ConstructorAndInsertTest() {
     bool flag = true;
     SkipList<int> f;
     flag = (f.size() == 0) ? true : false;
@@ -131,7 +132,7 @@ inline void ConstructorAndInsertTest() {
     if (!flag) throw(err);
 }
 
-inline void CopyTest() {
+void CopyTest() {
     bool flag = true;
 
     SkipList<int> f;
@@ -165,7 +166,7 @@ inline void CopyTest() {
     if (!flag) throw(err);
 }
 
-inline void IterConstructorTest() {
+void IterConstructorTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -180,7 +181,7 @@ inline void IterConstructorTest() {
     if (!flag) throw(err);
 }
 
-inline void EmptyTest() {
+void EmptyTest() {
     bool flag = true;
 
     SkipList<int> f;
@@ -196,7 +197,7 @@ inline void EmptyTest() {
     if (!flag) throw(err);
 }
 
-inline void SizeTest() {
+void SizeTest() {
     bool flag = true;
 
     SkipList<int> f;
@@ -217,7 +218,7 @@ inline void SizeTest() {
     if (!flag) throw(err);
 }
 
-inline void IterInsertTest() {
+void IterInsertTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -236,7 +237,7 @@ inline void IterInsertTest() {
     if (!flag) throw(err);
 }
 
-inline void IterTest() {
+void IterTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -262,7 +263,7 @@ inline void IterTest() {
     if (!flag) throw(err);
 }
 
-inline void FindTest() {
+void FindTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -282,7 +283,7 @@ inline void FindTest() {
     if (!flag) throw(err);
 }
 
-inline void CountTest() {
+void CountTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -307,7 +308,7 @@ inline void CountTest() {
     if (!flag) throw(err);
 }
 
-inline void LowerUpperBoundTest() {
+void LowerUpperBoundTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -325,7 +326,7 @@ inline void LowerUpperBoundTest() {
     if (!flag) throw(err);
 }
 
-inline void ClearTest() {
+void ClearTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -341,7 +342,7 @@ inline void ClearTest() {
     if (!flag) throw(err);
 }
 
-inline void EraseTest() {
+void EraseTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -370,7 +371,7 @@ inline void EraseTest() {
     if (!flag) throw(err);
 }
 
-inline void multiSkipListTest() {
+void multiSkipListTest() {
     bool flag = true;
 
     std::vector<Node<int>> a{ {567, 1}, {24, 2}, {3, 33}, {74, 35} };
@@ -394,7 +395,7 @@ inline void multiSkipListTest() {
     if (!flag) throw(err);
 }
 
-inline void TEST() {
+void TEST() {
     try
     {
         ConstructorAndInsertTest();

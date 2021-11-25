@@ -16,7 +16,9 @@ public:
         typedef Node<ValueType, KeyType>* pointer;
         typedef Node<ValueType, KeyType> reference;
     public:
-        iterator(Node<ValueType, KeyType> d) : data(d)
+        iterator(Node<ValueType, KeyType>* d) : data(d)
+        {}
+        iterator(Node<ValueType, KeyType>& d) : data(&d)
         {}
         iterator(iterator const& rha) : data(rha.data)
         {}
@@ -31,21 +33,23 @@ public:
         }
 
         bool operator==(iterator const& lha) {
-            return data.key == lha.data.key;
+            return data == lha.data;
         }
+
         bool operator!=(iterator const& lha) {
-            return data.key != lha.data.key;
+            return data != lha.data;
         }
 
         Node<ValueType, KeyType> operator*() {
-            return data;
+            return *data;
         }
+
         Node<ValueType, KeyType>* operator->() {
-            return &data;
+            return data;
         }
 
         iterator& operator++() {         // prefix
-            data = *data.forward[0];
+            data = data->forward[0];
             return *this;
         }
 
@@ -56,7 +60,7 @@ public:
         }
 
     private:
-        Node<ValueType, KeyType> data;
+        Node<ValueType, KeyType>* data;
     };
 
     iterator begin() {
@@ -64,23 +68,23 @@ public:
     }
 
     iterator end() {
-        return iterator(NIL);
+        return iterator(nullptr);
     }
 
-    SkipList(size_t max_level=10) : max_level(max_level), level(0), NIL(), gen(seed), length(0) {
+    SkipList(size_t max_level=10) : max_level(max_level), level(0), gen(seed), length(0) {
         head = new Node<ValueType>(0, NULL, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
-            head->forward[i] = &NIL;
+            head->forward[i] = nullptr;
         }
     }
 
     template <typename T>
-    SkipList(T st, T en, size_t max_level = 10) : max_level(max_level), level(0), NIL(), gen(seed), length(0) {
+    SkipList(T st, T en, size_t max_level = 10) : max_level(max_level), level(0), gen(seed), length(0) {
         head = new Node<ValueType>(0, NULL, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
-            head->forward[i] = &NIL;
+            head->forward[i] = nullptr;
         }
         for (auto it = st; it != en; it++)
         {
@@ -88,12 +92,12 @@ public:
         }
     }
 
-    SkipList(SkipList<ValueType, KeyType>& rha) : gen(seed), NIL(rha.NIL), level(0), length(0),
+    SkipList(SkipList<ValueType, KeyType>& rha) : gen(seed), level(0), length(0),
         max_level(rha.max_level) {
         head = new Node<ValueType>(0, NULL, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
-            head->forward[i] = &NIL;
+            head->forward[i] = nullptr;
         }
         for (auto it = rha.begin(); it != rha.end(); ++it)
         {
@@ -111,7 +115,6 @@ public:
         delete head;
 
         gen.seed(seed);
-        NIL = rha.NIL;
         level = 0;
         length = 0;
         max_level = rha.max_level;
@@ -119,7 +122,7 @@ public:
         head = new Node<ValueType>(0, NULL, max_level);
         for (size_t i = 0; i < max_level; i++)
         {
-            head->forward[i] = &NIL;
+            head->forward[i] = nullptr;
         }
         for (auto it = rha.begin(); it != rha.end(); it++)
         {
@@ -129,7 +132,7 @@ public:
         return *this;
     }
 
-    SkipList(SkipList<ValueType, KeyType>&& rha) : gen(rha.gen), NIL(), level(rha.level), length(rha.length),
+    SkipList(SkipList<ValueType, KeyType>&& rha) : gen(rha.gen), level(rha.level), length(rha.length),
         max_level(rha.max_level) {
         head = rha.head;
         rha.gen.seed(seed);
@@ -137,11 +140,10 @@ public:
         rha.head = new Node<ValueType>(0, NULL, rha.max_level);
         for (size_t i = 0; i < rha.max_level; i++)
         {
-            rha.head->forward[i] = &NIL;
+            rha.head->forward[i] = nullptr;
         }
         rha.level = 0;
         rha.length = 0;
-        std::swap(NIL, rha.NIL);
     }
 
     SkipList<ValueType, KeyType>& operator=(SkipList<ValueType, KeyType>&& rha) {
@@ -164,11 +166,10 @@ public:
         rha.head = new Node<ValueType>(0, NULL, rha.max_level);
         for (size_t i = 0; i < rha.max_level; i++)
         {
-            rha.head->forward[i] = &NIL;
+            rha.head->forward[i] = nullptr;
         }
         rha.level = 0;
         rha.length = 0;
-        std::swap(NIL, rha.NIL);
 
         return *this;
     }
@@ -178,11 +179,13 @@ public:
         Node<ValueType, KeyType>* tmp = head;
         for (size_t i = level; i > 0; i--)
         {
-            while (tmp->forward[i-1]->key < k) tmp = tmp->forward[i-1];
+            while (tmp->forward[i - 1] != nullptr and tmp->forward[i - 1]->key < k) {
+                tmp = tmp->forward[i - 1];
+            }
             ptrs[i-1] = tmp;
         }
         tmp = tmp->forward[0];
-        if (tmp->key == k) tmp->value = new_value;
+        if (tmp != nullptr and tmp->key == k) tmp->value = new_value;
         else {
             size_t lvl = randomLevel();
             if (lvl > level - 1 or level == 0) {
@@ -215,7 +218,7 @@ public:
         Node<ValueType, KeyType>* tmp = head;
         for (size_t i = level; i > 0; i--)
         {
-            while (tmp->forward[i - 1]->key < k) tmp = tmp->forward[i - 1];
+            while (tmp->forward[i - 1] != nullptr and tmp->forward[i - 1]->key < k) tmp = tmp->forward[i - 1];
             ptrs[i - 1] = tmp;
         }
         tmp = tmp->forward[0];
@@ -227,7 +230,7 @@ public:
                 ptrs[i]->forward[i] = tmp->forward[i];
             }
             delete tmp;
-            while (level > 0 and head->forward[level - 1] == &NIL) level--;
+            while (level > 0 and head->forward[level - 1] == nullptr) level--;
         }
     }
 
@@ -235,10 +238,10 @@ public:
         Node<ValueType, KeyType>* tmp = head;
         for (size_t i = level; i > 0; i--)
         {
-            while (tmp->forward[i - 1]->key < k) tmp = tmp->forward[i - 1];
+            while (tmp->forward[i - 1] != nullptr and tmp->forward[i - 1]->key < k) tmp = tmp->forward[i - 1];
         }
         tmp = tmp->forward[0];
-        if (tmp->key == k) return iterator(*tmp);
+        if (tmp != nullptr and tmp->key == k) return iterator(*tmp);
         else return end();
     }
 
@@ -263,7 +266,7 @@ public:
     }
 
     void clear() {
-        while (head->forward[0] != &NIL) Delete(head->forward[0]->key);
+        while (head->forward[0] != nullptr) Delete(head->forward[0]->key);
     }
 
     void erase(iterator iter) {
@@ -271,10 +274,14 @@ public:
     }
 
     void erase(iterator it_s, iterator  it_e) {
-        for (auto it = it_s; it != it_e; it++)
+        auto it_c = it_s;
+        ++it_s;
+        for (auto it = it_s; it != it_e; ++it)
         {
-            Delete(it->key);
+            Delete(it_c->key);
+            it_c = it;
         }
+        Delete(it_c->key);
     }
 
     size_t size() {
@@ -307,7 +314,6 @@ private:
     size_t length;
     size_t seed = 9996;
     std::mt19937 gen;
-    Node<ValueType, KeyType> NIL;
     size_t level;
     size_t max_level;
     Node<ValueType, KeyType>* head;

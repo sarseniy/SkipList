@@ -31,4 +31,9 @@
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tests.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
